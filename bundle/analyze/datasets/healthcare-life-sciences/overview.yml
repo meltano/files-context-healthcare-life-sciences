@@ -1,0 +1,54 @@
+version: datasets/v0.3
+title: "Healthcare and life sciences: industry overview"
+questions: What does a healthcare or life sciences organisation's data look like, and where does it come from?
+description: |
+  Industry context for this workspace, for the people and AI assistants working in it. It has no
+  query: it is a briefing to read before modelling or analysing this organisation's data.
+
+  ## Segments
+
+  Healthcare and life sciences covers organisations that deliver care, pay for it, or develop the
+  medicines, devices and diagnostics it uses. The segments differ in which entities and metrics
+  matter most:
+
+  - **Providers:** hospitals, primary care (GP practices), community, mental health and private
+    clinics. Patients, encounters, admissions, diagnoses, procedures, appointments and waiting
+    lists drive the data.
+  - **Payers and commissioners:** insurers, health plans and, in the NHS, integrated care boards.
+    Members, eligibility, claims and contracted activity.
+  - **Pharmaceuticals and biotech:** research, clinical trials, regulatory submissions,
+    manufacturing and commercial sales.
+  - **Medical devices and diagnostics:** device installs, test volumes, results, complaints and
+    post-market surveillance.
+  - **Digital health:** apps, remote monitoring and virtual care, usually a subscription or
+    contract with a provider or payer on top of one of the above.
+
+  ## Typical source systems
+
+  | System | Examples | What it holds |
+  |---|---|---|
+  | Electronic health record (EHR/EPR) | Epic, Oracle Health (formerly Cerner), MEDITECH, System C, Dedalus | Patients, encounters, orders, results, diagnoses, procedures |
+  | Primary care | EMIS Web, SystmOne (TPP), athenahealth | Registered patients, consultations, prescriptions, coded records |
+  | Integration engine | Rhapsody, InterSystems HealthShare, Mirth Connect | HL7 v2 messages (ADT, ORU, ORM) and FHIR resources passed between systems |
+  | Laboratory and imaging | LIMS, PACS/RIS | Specimens, results, imaging studies and reports |
+  | Clinical trials | Medidata Rave, Oracle Clinical One, Veeva Vault CTMS | Studies, sites, subjects, visits, case report forms, adverse events |
+  | Claims and billing | Payer claims systems, clearinghouses, the provider's billing system | Claims, remittances, denials, payments |
+  | Pharmacovigilance | Oracle Argus Safety, ArisGlobal LifeSphere | Adverse event cases and reports to regulators |
+  | Commercial CRM | Veeva CRM, Salesforce Life Sciences Cloud, IQVIA data | Healthcare professionals, calls, samples, prescribing and sales data |
+  | Reference data | SNOMED CT, ICD-10, OPCS-4, CPT, LOINC, dm+d, RxNorm | Clinical and drug code systems |
+
+  ## What makes the data different
+
+  - **Clinical meaning lives in codes.** Diagnoses, procedures, tests and drugs are recorded in
+    standard code systems, each with versions and hierarchies. Analysis depends on the right code
+    lists, not on free text.
+  - **Events arrive as messages.** EHR feeds are often HL7 v2 or FHIR messages that update a record
+    many times. The latest message is not always the right one, and corrections arrive late.
+  - **One patient, many identifiers.** Each system has its own number, and an NHS number (or a
+    master patient index) links them. Expect duplicates and merges.
+  - **The data is special category personal data.** Health data needs a lawful basis, tight access
+    and de-identification for most analysis. See *Healthcare and life sciences: handling the data*.
+
+  Related datasets: *data model*, *metrics*, *modelling it in dbt*, *handling the data*.
+
+  #healthcare-life-sciences #organisation-context

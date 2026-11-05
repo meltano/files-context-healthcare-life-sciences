@@ -1,0 +1,44 @@
+version: datasets/v0.3
+title: "Healthcare and life sciences: data model"
+questions: What are the core entities of healthcare and life sciences data, and at what grain should each be modelled?
+description: |
+  The entities most healthcare and life sciences data reduces to, with the grain and key of each.
+  Use it to map raw source tables onto a consistent model. Names are suggestions; keep the
+  organisation's own terms where they already exist. Standard models such as FHIR resources and
+  the OMOP Common Data Model use similar entities, and are worth following where the organisation
+  already does.
+
+  | Entity | Grain (one row per…) | Notes |
+  |---|---|---|
+  | `patient` (person) | person | One row per person after matching, with the source identifiers (NHS number, MRN) in a separate cross-reference. Date of death where known |
+  | `practitioner` | clinician | Professional registration number (GMC, NMC, NPI), role and specialty |
+  | `organisation` / `site` | provider, ward, clinic or trial site | Hierarchy from trust or health system down to ward or clinic |
+  | `encounter` (attendance) | contact with a service | Outpatient appointment, emergency attendance or virtual consultation. Start and end times, type, site, clinician |
+  | `admission` (spell) | inpatient stay | Admission and discharge dates, method, source and destination. A spell can contain several episodes under different consultants |
+  | `diagnosis` (condition) | coded diagnosis per encounter or episode | Code, code system, position (primary or secondary) and date |
+  | `procedure` | coded procedure | Code (OPCS-4, CPT or SNOMED CT), date and performing clinician |
+  | `observation` / `result` | measurement or test result | LOINC or local test code, value, unit, reference range and the time it was taken |
+  | `medication` | prescription, dispensing or administration | Keep the three apart: prescribed is not the same as given. dm+d or RxNorm code, dose, route |
+  | `referral` / `waiting_list_entry` | referral or pathway | Referral received date, clock start and stop, priority. The input to waiting-time measures |
+  | `claim` | claim line | Service date, codes, billed, allowed and paid amounts, denial reason |
+  | `study`, `subject`, `visit` | trial, enrolled participant, protocol visit | Subjects carry a study-specific ID, never a direct identifier. Case report form data hangs off visits |
+  | `adverse_event` | event per subject or case | Seriousness, causality, onset date and outcome |
+  | `product` / `batch` | product, manufactured batch | For pharma and devices: batch genealogy and release status |
+
+  ## Relationships
+
+  - A **patient** has **encounters** and **admissions**, each with **diagnoses**, **procedures**,
+    **observations** and **medications**.
+  - A **referral** starts a pathway that ends in an **encounter**, an **admission** or a discharge
+    back to the referrer.
+  - A **claim** bills for one or more **encounters** or **procedures**.
+  - A **trial subject** is enrolled in one **study** at one **site**, has **visits**, and may report
+    **adverse events**.
+
+  ## Status and history
+
+  Records are amended, merged and back-dated. Keep the record's last-updated time and the history of
+  status changes for anything reported "as at" a date: waiting list position, bed occupancy at
+  midnight, claim status and trial subject status.
+
+  #healthcare-life-sciences #organisation-context

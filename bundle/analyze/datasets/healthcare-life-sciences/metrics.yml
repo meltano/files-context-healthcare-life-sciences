@@ -1,0 +1,50 @@
+version: datasets/v0.3
+title: "Healthcare and life sciences: key metrics"
+questions: Which metrics does a healthcare or life sciences organisation run on, and how is each calculated?
+description: |
+  Standard definitions of the metrics healthcare and life sciences organisations report. Confirm
+  each one with the clinical, performance or finance team before building it: national definitions
+  (NHS data dictionary, CMS measures) fix many of them exactly, including exclusions.
+
+  ## Inpatient care
+
+  | Metric | Definition |
+  |---|---|
+  | Length of stay (LOS) | Discharge date less admission date, in days. Report the mean and median, and exclude day cases (LOS 0) or report them separately |
+  | Bed occupancy | Occupied bed days ÷ available bed days. The NHS measures general and acute beds at midnight |
+  | Readmission rate | Emergency readmissions within 30 days of discharge ÷ discharges. Define the exclusions (planned readmissions, cancer, obstetrics) explicitly |
+  | Delayed discharges | Patients medically fit for discharge but still in hospital, and the bed days they occupy |
+  | Mortality ratio | Observed deaths ÷ expected deaths from a risk-adjusted model, such as SHMI in England |
+
+  ## Access and waiting times
+
+  | Metric | Definition |
+  |---|---|
+  | Referral to treatment (RTT) | Share of patients on an incomplete pathway waiting under 18 weeks from referral, in the NHS in England |
+  | Emergency department 4-hour | Attendances admitted, transferred or discharged within 4 hours of arrival ÷ all attendances |
+  | Waiting list size | Open pathways at the period end, by weeks waited |
+  | Did not attend (DNA) rate | Missed appointments with no notice ÷ booked appointments |
+  | Theatre utilisation | Time in use ÷ planned session time |
+
+  ## Payers and revenue
+
+  | Metric | Definition |
+  |---|---|
+  | Claim denial rate | Claims (or value) denied ÷ claims submitted |
+  | Days in accounts receivable | Accounts receivable ÷ average daily charges |
+  | Medical loss ratio | Claims paid plus quality improvement spend ÷ premium revenue |
+  | Per member per month (PMPM) | Cost (or revenue) ÷ member months |
+  | Case mix index | Mean relative weight of the diagnosis-related groups (DRGs or HRGs) treated |
+
+  ## Clinical trials and life sciences
+
+  | Metric | Definition |
+  |---|---|
+  | Enrolment rate | Subjects enrolled per site per month, against plan |
+  | Screen failure rate | Subjects who fail screening ÷ subjects screened |
+  | Retention (dropout) rate | Subjects who complete ÷ subjects enrolled |
+  | Query rate and age | Open data queries per subject or form, and days open |
+  | Cycle times | Days between milestones: protocol final to first patient in, last patient out to database lock |
+  | Batch right-first-time | Batches released without deviation or rework ÷ batches made |
+
+  #healthcare-life-sciences #organisation-context

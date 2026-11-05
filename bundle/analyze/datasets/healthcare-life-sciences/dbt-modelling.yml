@@ -1,0 +1,63 @@
+version: datasets/v0.3
+title: "Healthcare and life sciences: modelling it in dbt"
+questions: How should raw healthcare and life sciences data be modelled in dbt so that it is clinically correct?
+description: |
+  Conventions for building dbt models on raw healthcare and life sciences data. They apply on top
+  of the workspace's usual dbt layout: staging, then intermediate, then marts.
+
+  ## Codes and code lists
+
+  - Keep the **code and its code system** together (`code`, `code_system`), and the description
+    from a reference table rather than the source's free text.
+  - Load reference code systems (SNOMED CT, ICD-10, OPCS-4, LOINC, dm+d) as versioned seeds or
+    sources, and note the release used.
+  - Define clinical cohorts from **maintained code lists** (for example "diabetes diagnosis codes")
+    held as seeds, never as `like 'E11%'` written in a model. Review them with a clinician.
+  - Map local codes to standard ones in one intermediate model, and test what stays unmapped.
+
+  ## Messages and record versions
+
+  - HL7 v2 and FHIR feeds send a record many times. Stage every message, then pick the current
+    version per record by the message's event time and sequence, not the load time.
+  - Handle **merges** (for example ADT A40 messages): repoint the merged patient's records to the
+    surviving patient in an intermediate model.
+  - Keep cancelled and entered-in-error records out of marts, but keep them in staging for audit.
+
+  ## Dates and time
+
+  - Store timestamps in UTC and derive the local date with the organisation's timezone; midnight
+    bed census and 4-hour waits depend on it.
+  - Keep event time (when it happened) apart from recorded time (when it was entered). Results and
+    notes are often entered hours later.
+  - Waiting-time clocks start, pause and stop on defined events. Model them as events, and compute
+    waits from the events using the national rules.
+
+  ## Patients
+
+  - Build a **person cross-reference** mapping each source identifier to one person, and record the
+    matching method. Do not join on name and date of birth alone in marts.
+  - Derive age at the event, not age today.
+
+  ## Tests
+
+  - **Accepted values** on code systems, encounter types, admission methods and discharge
+    destinations.
+  - **Referential** tests from encounters, diagnoses and results to patients, with an agreed
+    tolerance for unmatched records.
+  - **Plausibility:** discharge after admission, no events after date of death, results within a
+    physiologically possible range.
+  - **Reconciliation** of activity counts to the figures submitted nationally (for example SUS or
+    the monthly sitreps), or to the EHR's own reports.
+  - **Freshness** on feeds, since a stopped interface silently understates activity.
+
+  ## Trials
+
+  Model trial data to the sponsor's standards, often CDISC SDTM and ADaM, and keep the study's
+  locked database separate from live data.
+
+  ## Sensitive columns
+
+  Tag identifying and clinical columns in the model YAML (for example `meta: {pii: true}`) and keep
+  them out of marts that do not need them. See *Healthcare and life sciences: handling the data*.
+
+  #healthcare-life-sciences #organisation-context

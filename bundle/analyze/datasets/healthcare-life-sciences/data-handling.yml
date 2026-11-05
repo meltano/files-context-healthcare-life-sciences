@@ -1,0 +1,50 @@
+version: datasets/v0.3
+title: "Healthcare and life sciences: handling the data"
+questions: What care does healthcare and life sciences data need in the warehouse?
+description: |
+  Health data is among the most sensitive personal data there is. These are general practices for
+  a warehouse holding it. They are not legal, regulatory or clinical advice: the organisation's
+  data protection officer, Caldicott Guardian or privacy officer decides what applies.
+
+  ## Classify the data
+
+  | Class | Examples | Handling |
+  |---|---|---|
+  | Direct identifiers | Name, address, NHS number, MRN, date of birth, phone, email, photographs | Keep in a restricted identity table. Join to clinical data through a pseudonymous key |
+  | Health data (special category) | Diagnoses, procedures, results, medications, notes | Load only with a lawful basis and a condition for processing. Restrict to the roles that need it |
+  | Highly sensitive health data | Sexual health, HIV, mental health, substance misuse, genetic data, gender identity | Restrict further, and suppress from general marts. Some categories have their own legal protections |
+  | Free-text clinical notes | Letters, notes, comments | Assume they contain identifiers. Leave them out of the warehouse unless there is a reviewed need |
+  | Trial data | Subject data, unblinded treatment allocation | Keep subject IDs pseudonymous. Restrict unblinded data to the unblinded team |
+  | Card and payment data | For self-pay and private patients | Keep only the payment provider's token. Never load full card numbers (PCI DSS) |
+
+  ## Practices
+
+  - **Pseudonymise by default.** Analysis rarely needs identity. Replace identifiers with a keyed
+    hash or a pseudonymous ID, and hold the key separately.
+  - **De-identify for wider use.** Under HIPAA, data is de-identified by the Safe Harbor method
+    (removing 18 identifiers) or Expert Determination. Small numbers in outputs can still identify
+    people: suppress low counts.
+  - **Least privilege.** Separate raw, staging and mart schemas. Grant identifiable data only to
+    named roles with a need for it, and log access.
+  - **National data opt-out.** In England, patients can opt out of their data being used for
+    research and planning. Apply the opt-out where it applies, and record when it was checked.
+  - **No real patient data in development** without de-identification.
+  - **Retention.** Health records have long, specified retention periods (the NHS Records
+    Management Code of Practice, for example). Agree them with records management.
+  - **Audit trail.** Keep load history, lineage and access logs.
+
+  ## Regulators and rules to be aware of
+
+  Which apply depends on the organisation's country and activities. Common ones:
+
+  - **UK:** UK GDPR and the Data Protection Act 2018 (health data is special category data), the
+    common law duty of confidentiality, the Caldicott Principles, the NHS Data Security and
+    Protection Toolkit, the national data opt-out; the CQC and MHRA as regulators.
+  - **EU:** GDPR, the Clinical Trials Regulation, the Medical Device Regulation (MDR), and the
+    European Health Data Space regulation as it comes into force.
+  - **US:** HIPAA (Privacy and Security Rules, with business associate agreements for processors),
+    42 CFR Part 2 for substance use disorder records, FDA 21 CFR Part 11 for electronic trial
+    records.
+  - **Clinical trials everywhere:** ICH Good Clinical Practice (GCP).
+
+  #healthcare-life-sciences #organisation-context
