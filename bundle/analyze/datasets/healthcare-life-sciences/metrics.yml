@@ -11,7 +11,7 @@ description: |
   | Metric | Definition |
   |---|---|
   | Length of stay (LOS) | Discharge date less admission date, in days. Report the mean and median, and exclude day cases (LOS 0) or report them separately |
-  | Bed occupancy | Occupied bed days ÷ available bed days. The NHS measures general and acute beds at midnight |
+  | Bed occupancy | Occupied bed days ÷ available bed days. The NHS measures general and acute beds at midnight local time (00:00 GMT in winter, 23:00 GMT in summer) |
   | Readmission rate | Emergency readmissions within 30 days of discharge ÷ discharges. Define the exclusions (planned readmissions, cancer, obstetrics) explicitly |
   | Delayed discharges | Patients medically fit for discharge but still in hospital, and the bed days they occupy |
   | Mortality ratio | Observed deaths ÷ expected deaths from a risk-adjusted model, such as SHMI in England |

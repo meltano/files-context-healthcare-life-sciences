@@ -39,6 +39,6 @@ description: |
 
   Records are amended, merged and back-dated. Keep the record's last-updated time and the history of
   status changes for anything reported "as at" a date: waiting list position, bed occupancy at
-  midnight, claim status and trial subject status.
+  local midnight (00:00 GMT in winter, 23:00 GMT in summer in the UK), claim status and trial subject status.
 
   #healthcare-life-sciences #organisation-context

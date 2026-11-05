@@ -25,8 +25,9 @@ description: |
 
   ## Dates and time
 
-  - Store timestamps in UTC and derive the local date with the organisation's timezone; midnight
-    bed census and 4-hour waits depend on it.
+  - Store timestamps in UTC (GMT+00:00, no daylight saving) and derive the local date with the
+    organisation's timezone (UK: GMT in winter, BST = GMT+01:00 in summer); the midnight bed census
+    (local midnight: 00:00 GMT in winter, 23:00 GMT in summer) and 4-hour waits depend on it.
   - Keep event time (when it happened) apart from recorded time (when it was entered). Results and
     notes are often entered hours later.
   - Waiting-time clocks start, pause and stop on defined events. Model them as events, and compute
